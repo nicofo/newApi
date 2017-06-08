@@ -57,8 +57,8 @@ public class crumbAPI {
      *
      *
      */
-    @ApiMethod(name = "getCrumbById",path = "getCrumbById",httpMethod = ApiMethod.HttpMethod.GET)
-    public Object getCrumbById(String id) throws IOException, NotFoundException, UnauthorizedException {
+    @ApiMethod(name = "getCrumbById",path = "getCrumbById/{crumbId}",httpMethod = ApiMethod.HttpMethod.GET)
+    public Object getCrumbById(@Named("crumbId") String id) throws IOException, NotFoundException, UnauthorizedException {
 
         try{
 
