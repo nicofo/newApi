@@ -15,6 +15,15 @@ public class CommentInfo extends Info{
     private String crumbId;
     private String userName;
 
+    public CommentInfo(String comment, Date date, long epochDate, String userId, String crumbId, String userName) {
+        this.comment = comment;
+        this.date = date;
+        this.epochDate = epochDate;
+        this.userId = userId;
+        this.crumbId = crumbId;
+        this.userName = userName;
+    }
+
     /**
      *
      * @return

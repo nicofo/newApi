@@ -5,30 +5,42 @@
  */
 package com.crumbits.API;
 
+import com.crumbits.Bean;
 import com.crumbits.Info.*;
 //import com.crumbits.Entrada.EntradaCrumb;
 import com.crumbits.Error.Success;
 //import com.crumbits.ReturnClasses.IsSharing;
 //import com.crumbits.ReturnClasses.IsThanking;
 import com.crumbits.Utilities.MockUtilities;
+import com.google.api.server.spi.auth.EspAuthenticator;
+import com.google.api.server.spi.auth.common.User;
+import com.google.api.auth.Authenticator;
+import com.google.api.auth.UnauthenticatedException;
 import com.google.api.server.spi.config.Api;
+
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.api.server.spi.response.NotFoundException;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
- * @author Miquel Ferriol
+ * @author Nico Forteza
  */
-@Api(name = "crumbAPI",
-        version = "v1",
+@Api(
+        name = "crumb",
+        version="v1",
         namespace = @ApiNamespace(ownerDomain = "com.crumbits",
         ownerName = "com.crumbits",
-        packagePath=""))
+        packagePath="")
+
+        )
 
 public class crumbAPI {
 
@@ -39,14 +51,67 @@ public class crumbAPI {
      * @return
      */
      /**
-     * @api {get} /user/:id Request User information
+     * @api {get} /crumb/:id Request User information
      * @apiName getCrumbById
      * @apiGroup Crumb
      *
-     * @apiParam {Number} id Crumb unique ID.
+     * @apiParam {String} id Crumb unique ID.
      *
-     * @apiSuccess {String} firstname Firstname of the User.
-     *
+     * @apiSuccess {String} firstname .
+      *  @apiSuccessExample {json} Success-Response:
+      *     HTTP/1.1 200 OK
+      *   {
+             "ret": {
+                 "description": "This is a crumb description",
+                 "date": "2017-06-09T11:30:01.516+02:00",
+                 "crumbFile": [
+                     {
+                        "isVideo": false
+                     }
+                 ],
+                 "relevance": 5,
+                 "nreShares": 3,
+                 "nreThanks": 4,
+                 "nreReports": 0,
+                 "nreComments": 2,
+                 "nreViews": 3,
+                 "epochDate": "1497000601",
+                 "isUserShare": false,
+                 "isUserThanks": true,
+                 "thumbnail": {
+                    "isVideo": false
+                 },
+                 "isOwner": false,
+                 "themes": [
+                     {
+                     "name": "#barcelona",
+                     "nreCrumbs": 10,
+                     "nreUsersFollowing": 12,
+                     "isFollowing": true,
+                     "themeFile": {
+                        "isVideo": false
+                     }
+                     }
+                 ],
+                 "place": {
+                     "name": "Barcelona",
+                     "coordinate": {
+                     "lat": 41.3963097,
+                     "lng": 2.1653831
+                 },
+                 "type": "type",
+                 "nreCrumbs": 10,
+                 "nreUsersFollowing": 12,
+                 "isFollowing": true,
+                 "placeFile": {
+                    "isVideo": false
+                 },
+                "googleId": "ChIJ_5rXKOyipBIRkvCCQOH6ACY"
+                 }
+             },
+             "status": "success"
+             }
+
      * @apiError UserNotFound The id of the User was not found.
      *
      * @apiErrorExample Error-Response:
@@ -57,21 +122,21 @@ public class crumbAPI {
      *
      *
      */
-    @ApiMethod(name = "getCrumbById",path = "getCrumbById/{crumbId}",httpMethod = ApiMethod.HttpMethod.GET)
-    public Object getCrumbById(@Named("crumbId") String id) throws IOException, NotFoundException, UnauthorizedException {
+    @ApiMethod(name = "getCrumbById",path = "{crumbId}",httpMethod = ApiMethod.HttpMethod.GET)
+    public Object getCrumbById(@Named("crumbId") String crumbId) throws IOException, NotFoundException {
 
         try{
 
 
-            if(id.length() <=6){
-                throw new NotFoundException("Not found by this Id");
+            if(crumbId.length() <=6){
+                throw new NotFoundException("Crumb not found with id"+ crumbId);
             }
             //TODO Only for the mock
             MockUtilities u = new MockUtilities();
-            CrumbInfo ci = u.entityToCrumb(id);
-            Success s = new Success();
-            s.setRet(ci);
-            return s;
+            CrumbInfo ci = u.entityToCrumb(crumbId);
+            Bean response = new Bean();
+            response.setData(ci);
+            return response;
 
         }
         /*
@@ -84,9 +149,79 @@ public class crumbAPI {
         }
         */
         catch(Exception e){
-            throw new NotFoundException("Not found by this Id");
+            throw new NotFoundException("Crumb not found with id: "+ crumbId);
         }
     }
+
+
+
+
+
+    @ApiMethod(name = "createCrumb",path = "",httpMethod = ApiMethod.HttpMethod.POST)
+    public Object createCrumb(@Named("creatorId") String creatorId, @Named("description") String description, @Named("date") Date date, @Named("lat") Double lat, @Named("lng") Double lng, @Named("googlePlaceId") String googlePlaceId, @Named("placeName") String placeName, @Named("files") ArrayList<String> files, @Named("themesId") ArrayList<String> themesId, @Named("sensitiveContent") Boolean sensitiveContent, @Named("signature") String signature ,User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+
+
+
+    @ApiMethod(name = "editCrumb",path = "{crumbId}",httpMethod = ApiMethod.HttpMethod.PUT)
+    public Object editCrumb(@Named("crumbId") String crumbId, @Named("description") String description, @Named("date") Date date, @Named("lat") Double lat, @Named("lng") Double lng, @Named("googlePlaceId") String googlePlaceId, @Named("placeName") String placeName, @Named("files") ArrayList<String> files, @Named("themesId") ArrayList<String> themesId, @Named("sensitiveContent") Boolean sensitiveContent, @Named("signature") String signature ,User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+
+    @ApiMethod(name = "deleteCrumb",path = "{crumbId}",httpMethod = ApiMethod.HttpMethod.DELETE)
+    public Object deleteCrumb(@Named("crumbId") String crumbId, User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+
+    @ApiMethod(name = "thankedCrumb",path = "{crumbId}s",httpMethod = ApiMethod.HttpMethod.GET)
+    public Object thankedCrumb(@Named("crumbId") String crumbId, User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+    @ApiMethod(name = "sharedCrumb",path = "{crumbId}/share",httpMethod = ApiMethod.HttpMethod.GET)
+    public Object sharedCrumb(@Named("crumbId") String crumbId, User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+    @ApiMethod(name = "thanksCrumb",path = "{crumbId}/thanks",httpMethod = ApiMethod.HttpMethod.PUT)
+    public Object thanksCrumb(@Named("crumbId") String crumbId, @Named("thanks") Boolean thanks, User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+    @ApiMethod(name = "shareCrumb",path = "{crumbId}/share",httpMethod = ApiMethod.HttpMethod.PUT)
+    public Object shareCrumb(@Named("crumbId") String crumbId, User user) throws IOException, NotFoundException, UnauthorizedException {
+        throw new UnauthorizedException("");
+
+    }
+
+    @ApiMethod(name = "lastCommentsCrumb",path = "{crumbId}/lastComments",httpMethod = ApiMethod.HttpMethod.GET)
+    public Object lastCommentsCrumb(@Named("crumbId") String crumbId) throws IOException, NotFoundException {
+        try {
+
+
+            if (crumbId.length() <= 6) {
+                throw new NotFoundException("Crumb not found with id" + crumbId);
+            }
+            MockUtilities u = new MockUtilities();
+            ArrayList<CommentInfo> ci = new ArrayList<CommentInfo>();
+
+            for (int i = 0; i < 3; i++) {
+                ci.add(u.entityToComments(crumbId));
+            }
+            Success s = new Success();
+            s.setRet(ci);
+            return s;
+        }
+        catch(Exception e){
+            throw new NotFoundException("Crumb not found with id: "+ crumbId);
+        }
+
+    }
+
 
   /*  *//**
      *

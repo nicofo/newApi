@@ -1,9 +1,6 @@
 package com.crumbits.Utilities;
 
-import com.crumbits.Info.CrumbInfo;
-import com.crumbits.Info.FileInfo;
-import com.crumbits.Info.PlaceInfo;
-import com.crumbits.Info.ThemeInfo;
+import com.crumbits.Info.*;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
@@ -16,6 +13,7 @@ import com.google.maps.model.LatLng;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by nico on 8/06/17.
@@ -34,9 +32,10 @@ public class MockUtilities {
 
     private final String bucket = "crumbit";
     private final String thumbnailBucket = "crumbit/thumbnails";
+    private final Random randomGenerator = new Random();
 
     //TODO Change all the fileInfo objects to a correct one
-    public CrumbInfo entityToCrumb(String userId) throws EntityNotFoundException, IOException {
+    public CrumbInfo entityToCrumb(String crumbId) throws EntityNotFoundException, IOException {
         ArrayList<ThemeInfo> themesList= new ArrayList<ThemeInfo>();
         ArrayList<FileInfo> infoList= new ArrayList<FileInfo>();
         FileInfo info =new FileInfo();
@@ -57,7 +56,8 @@ public class MockUtilities {
         themesList.add(theme);
         CrumbInfo crumb;
         infoList.add(info);
-        crumb = new CrumbInfo("This is a crumb description",
+        crumb = new CrumbInfo(crumbId,
+                "This is a crumb description",
                 themesList,
                 place,
                 new Date(),
@@ -76,6 +76,17 @@ public class MockUtilities {
 
 
         return crumb;
+    }
+
+    public CommentInfo entityToComments(String crumbId) throws EntityNotFoundException, IOException {
+        CommentInfo comment = new CommentInfo(
+                "This is a crumb comment"+randomGenerator.nextInt(10),
+                new Date(),
+                new Date().getTime()/1000,
+                ""+randomGenerator.nextInt(100000),
+                crumbId,
+                "name name"+randomGenerator.nextInt(10));
+        return comment;
     }
 //
 //    /**

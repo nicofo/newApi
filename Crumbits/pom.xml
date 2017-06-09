@@ -179,6 +179,16 @@
         
         <!-- Compile/runtime dependencies -->
         <dependency>
+            <groupId>com.google.endpoints</groupId>
+            <artifactId>endpoints-management-control-appengine</artifactId>
+            <version>1.0.0-beta.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.endpoints</groupId>
+            <artifactId>endpoints-framework-auth</artifactId>
+            <version>1.0.0-beta.11</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-endpoints</artifactId>
             <version>1.9.42</version>

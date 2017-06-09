@@ -8,7 +8,9 @@ import java.util.Date;
  * @author Miquel Ferriol
  */
 public class CrumbInfo extends Info{
-    
+
+
+    private String id;
     private String description;
     private ArrayList<ThemeInfo> Themes;
     private PlaceInfo Place;
@@ -26,7 +28,8 @@ public class CrumbInfo extends Info{
     private FileInfo thumbnail;
     private boolean isOwner;
 
-    public CrumbInfo(String description, ArrayList<ThemeInfo> themes, PlaceInfo place, Date date, ArrayList<FileInfo> crumbFile, int relevance, int nreShares, int nreThanks, int nreReports, int nreComments, int nreViews, long epochDate, boolean isUserShare, boolean isUserThanks, FileInfo thumbnail, boolean isOwner) {
+    public CrumbInfo(String id, String description, ArrayList<ThemeInfo> themes, PlaceInfo place, Date date, ArrayList<FileInfo> crumbFile, int relevance, int nreShares, int nreThanks, int nreReports, int nreComments, int nreViews, long epochDate, boolean isUserShare, boolean isUserThanks, FileInfo thumbnail, boolean isOwner) {
+        this.id=id;
         this.description = description;
         Themes = themes;
         Place = place;
@@ -343,5 +346,14 @@ public class CrumbInfo extends Info{
     public void setDescription(String description) {
         this.description = description;
     }
-    
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
