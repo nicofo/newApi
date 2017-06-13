@@ -17,9 +17,9 @@ import com.google.api.server.spi.auth.common.User;
 import com.google.api.auth.Authenticator;
 import com.google.api.auth.UnauthenticatedException;
 import com.google.api.server.spi.config.Api;
-
+import com.google.api.server.spi.config.ApiIssuer;
+import com.google.api.server.spi.config.ApiIssuerAudience;
 import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
 import com.google.api.server.spi.response.UnauthorizedException;
 import com.google.api.server.spi.response.NotFoundException;
@@ -35,11 +35,20 @@ import java.util.Date;
  */
 @Api(
         name = "crumb",
-        version="v2"
+        version="v2",
         //namespace = @ApiNamespace(ownerDomain = "com.crumbits",
         //ownerName = "com.crumbits",
         //packagePath="")
-
+        authenticators = {EspAuthenticator.class},
+        issuers = {
+                @ApiIssuer(
+                        name = "firebase",
+                        issuer = "https://securetoken.google.com/YOUR-PROJECT-ID",
+                        jwksUri = "https://www.googleapis.com/service_accounts/v1/metadata/x509/securetoken@system.gserviceaccount.com")
+        },
+        issuerAudiences = {
+                @ApiIssuerAudience(name = "firebase", audiences = "YOUR-PROJECT-ID")
+        }
         )
 
 public class crumbAPI {
@@ -301,8 +310,8 @@ public class crumbAPI {
 
 
     /**
-     * @api {get} /crumb/v2/ Crumb by Id
-     * @apiName getCrumbByIdUser
+     * @api {post} /crumb/v2/ Create crumb
+     * @apiName createCrumb
      * @apiGroup Crumb
      * @apiPermission User
      *

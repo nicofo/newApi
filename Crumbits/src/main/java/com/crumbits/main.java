@@ -19,6 +19,7 @@ import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.xuggler.IContainer;
 import com.xuggle.xuggler.IContainerFormat;
 import com.xuggle.xuggler.io.XugglerIO;*/
+/*
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +29,7 @@ import org.jcodec.api.JCodecException;
 import org.jcodec.api.awt.FrameGrab;
 import org.jcodec.common.FileChannelWrapper;
 import org.jcodec.common.NIOUtils;
-
+*/
 
 /**
  *
@@ -85,7 +86,7 @@ public class main {
             .build());
    
    final static String bucket = "crumbit";
-   
+   /*
    public static void  prova() throws IOException, JCodecException{
         String fileName   = "C:\\Users\\Miquel Ferriol\\Desktop\\Banderes\\video.mp4";
         FileChannelWrapper ch = null;
@@ -100,7 +101,7 @@ public class main {
         } finally {
             NIOUtils.closeQuietly(ch);
         }
-   }
+   }*/
    
     private static final String apiKey = "1316954461653611";
     private static final String secretKey = "9f6708cefb08d128aeb043fd1d2424d4"; 
